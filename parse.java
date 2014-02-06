@@ -14,9 +14,9 @@ public class parse {
     	while ((sentLine = br.readLine()) != null) {
     		// String[] tokens = tokenizer(sentLine);
     		String[] tokens = line.split(" ");
-			String[] parsers = parser.best_parse(tokens);
+			ArrayList<String> parses = parser.best_parse(tokens);
 
-			for (String parse : parsers) {
+			for (String parse : parses) {
 				ps.println(parse);
 				ps.println("");
 			}
