@@ -3,16 +3,27 @@ import java.util.*;
 import java.math.*;
 import java.lang.*;
 
-public class PCFG {
+public class PCKY {
    
-   private static String cfg_path;
-   // key: lhs; value: list of rhs
-   private static Map<String, List<String>> rules = new HashMap<String, List<String>>();
-   // key: lhs; value: <rhs, rule_count>
-   private static Map<String, Integer> rules_count = new HashMap<String, Integer>();
+   private static String pcfg_path;
+   private static Map<String, Double> rules_prob = new HashMap<String, Double>();
 
-   public PCFG(String cfg_path) throws IOException {
-      this.cfg_path = cfg_path; 
-      get_rules(); 
+   public PCKY(String pcfg_path) throws IOException {
+      this.pcfg_path = pcfg_path; 
+      rule_model(); 
+   }
+
+   private void rule_model() throws IOException {
+      BufferedReader br = new BufferedReader(new FileReader(pcfg_path));
+      String ruleLine = "";
+      while ((ruleLine = br.readLine()) != null) {
+      	 String rule = get_rule(ruleLine);
+      	 double prob = get_prob(ruleLine);
+         rules_prob.put(rule, prob);
+      }
+   }
+
+   private String get_prob(String line) {
+      String p_str = line.replaceAll("[]", "");
    }
 }
