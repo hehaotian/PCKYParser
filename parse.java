@@ -7,19 +7,16 @@ public class parse {
 		String sent_path = args[1];
 		PrintStream ps = new PrintStream(args[2]);
 
-		PCKY parser = new PCKY(pcfg_path);
+		PckyParser parser = new PckyParser(pcfg_path);
 
 		BufferedReader br = new BufferedReader(new FileReader(sent_path));
 		String sentLine = "";
     	while ((sentLine = br.readLine()) != null) {
     		// String[] tokens = tokenizer(sentLine);
-    		String[] tokens = line.split(" ");
-			ArrayList<String> parses = parser.best_parse(tokens);
-
-			for (String parse : parses) {
-				ps.println(parse);
-				ps.println("");
-			}
+    	   String[] tokens = sentLine.split(" ");
+		   String parse = parser.best_parse(tokens);
+		   ps.println(parse);
+	       ps.println("");
 		}
 	}
 }
