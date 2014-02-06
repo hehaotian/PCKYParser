@@ -1,5 +1,0 @@
-(TOP (SQ (SQ' (VBZ Does) (NP (DT this) (NN flight))) (VP (VB serve) (NP_NN dinner))) (PUNC ?))
-(TOP (S (NP_PRP I) (VP (VBP need) (NP (NP' (NP' (NP (DT a) (NN flight)) (PP (TO to) (NP_NNP Seattle))) (VP (VBG leaving) (PP (IN from) (NP_NNP Baltimore)))) (VP (VBG making) (NP (NP (DT a) (NN stop)) (PP (IN in) (NP_NNP Minneapolis))))))) (PUNC .))
-(TOP (S (NP_PRP I) (VP (VBP need) (S_VP (TO to) (VP (VB have) (S (NP_NN dinner) (VP_VBN served)))))) (PUNC .))
-(TOP (S (NP_PRP I) (VP (VBP have) (NP (NP' (NP (DT a) (NN friend)) (VP (VBG living) (PP (IN in) (NP_NNP Denver)))) (SBAR (WHNP_WDT that) (S_VP (MD would) (VP (VB like) (S_VP (TO to) (VP (VP' (VB visit) (NP_PRP me)) (ADVP (ADVP_RB here) (PP (IN in) (NP (NP_NNP Washington) (NP (NNP D) (NNP C))))))))))))) (PUNC .))
-(TOP (S (NP_PRP I) (VP (VBP need) (NP (NP' (NP' (NP (DT a) (NN flight)) (PP (IN from) (NP_NNP Indianapolis))) (PP (TO to) (NP_NNP Houston))) (PP (IN on) (NP (NP' (NNP T) (NNP W)) (NNP A)))))) (PUNC .))

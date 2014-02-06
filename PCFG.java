@@ -133,6 +133,7 @@ public class PCFG {
          String lhs = get_lhs(s);
          double prob = rules_count.get(s) * 1.0 / rules.get(lhs).size();
          pcfg.println(s + " [" + prob + "]");
+         // pcfg.println(s);
       }
    }
 
@@ -145,5 +146,5 @@ public class PCFG {
       String temp = rule.replaceAll(".+->", "");
       return temp.trim();
    }
-   
+  
 }
