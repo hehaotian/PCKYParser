@@ -1,0 +1,1 @@
+(TOP (SQ (SQ' (VBZ Does) (NP (DT this) (NN flight))) (VP (VB serve) (NP_NN dinner))) (PUNC ?))
