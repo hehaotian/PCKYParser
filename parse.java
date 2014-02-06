@@ -16,7 +16,6 @@ public class parse {
     	   String[] tokens = sentLine.split(" ");
 		   String parse = parser.best_parse(tokens);
 		   ps.println(parse);
-	       ps.println("");
 		}
 	}
 }
