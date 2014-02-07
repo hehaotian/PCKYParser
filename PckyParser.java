@@ -49,27 +49,88 @@ public class PckyParser {
    public String best_parse(String[] tokens) {
       ArrayList<String> words = sort(tokens);
       int sentLength = words.size();
-      String best_parse = "yes!";
+      String best_parse = "";
       ArrayList<String> possible_parses = new ArrayList<String>();
 
-      Map<Integer, Map<Integer, Map<String, List<String>>>> table = new HashMap<Integer, Map<Integer, Map<String, List<String>>>>();
+      Map<Integer, Map<Integer, Map<String, Double>>> table = new HashMap<Integer, Map<Integer, Map<String, Double>>>();
 
       for (int j = 1; j < sentLength; j ++) {
          String curWord = words.get(j);
          
-         table.put(j - 1, new HashMap<Integer, Map<String, List<String>>>());
-         table.get(j - 1).put(j, new HashMap<String, List<String>>());
-         List<String> possible_a = back_rules.get(curWord);
-         table.get(j - 1).get(j).put(curWord, possible_a);
+         table.put(j - 1, new HashMap<Integer, Map<String, Double>>());   
+         List<String> a = new ArrayList<String>();     
+         if (back_rules.containsKey(curWord)) {
+            a = back_rules.get(curWord); 
+            /* DEBUG: traverse the back_rules
+            for (int i = 0; i < a.size(); i ++) {
+               System.out.println(a.get(i));
+            }
+            */
+         } else {
+            break;
+         }
+         Map<String, Double> prod_probs = new HashMap<String, Double>();
+         prod_probs = get_prod_probs(a, curWord);
+         table.get(j - 1).put(j, prod_probs);
 
          for (int i = j - 2; i >= 0; i --) {
             for (int k = i + 1; k <= j - 1; k ++) {
+               Map<String, Double> abc = new HashMap<String, Double>();
+               
+               if (table.get(i).get(k) != null && table.get(k).get(j) != null) {
+                  Map<String, Double> b_tab = table.get(i).get(k);
+                  Map<String, Double> c_tab = table.get(k).get(j); 
+                  for (String b : b_tab.keySet()) {
+                     for (String c : c_tab.keySet()) {
+                        String temp_rhs = b + c;
+                        // System.out.println(temp_rhs);
+                        if (back_rules.containsKey(temp_rhs)) {
+                           // System.out.println("yes!");
+                           if (back_rules.containsKey(temp_rhs)) {
+                              List<String> a_list = back_rules.get(temp_rhs);
+                              for (int p = 0; p < a_list.size(); p ++) {
+                                 String temp_rule = a_list.get(p) + "->" + b + c;
+                                 String real_rule = a_list.get(p) + " -> " + b + " " + c + " ";
+                                 double temp_rule_prob = rules_prob.get(temp_rule);
+                                 abc.put(real_rule, temp_rule_prob);
+                              }
+                           }                             
+                        }
+                     }
+                  }
+               }
 
+               for (String rule : abc.keySet()) {
+                  String curA = get_lhs(rule);
+                  String curBC = get_rhs(rule);
+                  String curB = get_b(curBC);
+                  String curC = get_c(curBC);
+                  if (table.get(i).get(k).get(curB) >= 0 && table.get(k).get(j).get(curC) >= 0) {
+                     String abc_rule = curA + "->" + curB + curC;
+                     double abc_prob = rules_prob.get(abc_rule);
+                     double temp_prob = table.get(i).get(k).get(curB) * table.get(k).get(j).get(curC) * abc_prob;
+                     // System.out.println(abc_rule + "\t" + abc_prob + "\t" + temp_prob);
+                     if (table.get(i) == null) {
+                        table.put(i, new HashMap<Integer, Map<String, Double>>());
+                     }
+                     if (table.get(i).get(j) == null) {
+                        Map<String, Double> ij_map = new HashMap<String, Double>();
+                        ij_map.put(curA, 0.0);
+                        table.get(i).put(j, ij_map);
+                     }
+
+                     if (table.get(i).containsKey(j) && table.get(i).get(j).containsKey(curA)) {                        
+                        if (table.get(i).get(j).get(curA) < temp_prob) {
+                           table.get(i).get(j).put(curA, temp_prob);
+                        }
+                     }
+                  }
+               }
             }
          }
-
       }
-
+      System.out.println(table);
+      best_parse = pick_up_best(table);
       return best_parse;
    }
    
@@ -77,7 +138,7 @@ public class PckyParser {
       String[] tokens = line.split(" ");
       String rule = "";
       for (int i = 0; i < tokens.length - 1; i ++) {
-         rule += tokens[i] + " ";
+         rule += tokens[i];
       }
       // System.out.println(rule);
       return rule;
@@ -109,4 +170,42 @@ public class PckyParser {
       }
       return words;
    }
+
+   private Map<String, Double> get_prod_probs(List<String> left, String right) {
+      Map<String, Double> prod_probs = new HashMap<String, Double>();
+      for (int i = 0; i < left.size(); i ++) {
+         String rule = left.get(i) + "->" + right;
+         double prob = rules_prob.get(rule);
+         prod_probs.put(left.get(i), rules_prob.get(rule));
+      }
+      return prod_probs;
+   }
+
+   private List<String> sort_bc(List<String> bc) {
+      List<String> real_bc = new ArrayList<String>();
+      for (int i = 0; i < bc.size(); i ++) {
+         String[] tokens = bc.get(i).split(" ");
+         if (tokens.length > 1) {
+            real_bc.add(bc.get(i));
+         }
+      }
+      return real_bc;
+   }
+
+   private String get_b(String bc) {
+      String[] tokens = bc.split(" ");
+      String b = tokens[0].trim();
+      return b;
+   }
+
+   private String get_c(String bc) {
+      String[] tokens = bc.split(" ");
+      String c = tokens[1].trim();
+      return c;
+   }
+
+   private String pick_up_best(Map<Integer, Map<Integer, Map<String, Double>>> table) {
+      return "";
+   }
+
 }
