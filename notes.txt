@@ -1,0 +1,17 @@
+HW 3 LING 571
+HAOTIAN HE and JONGGUN PARK
+====================
+
+This homework is collaborated with Jonggun Park.
+
+We collaborated to code together for:
+1. implemented the whole PCFG converter.
+2. implemented most parts of the PCKY parser, except for the back pointer part.
+
+====================
+
+1. For a Probabilistic Context-free Grammar:
+	I used a recursion for loop to traverse all the CFG, and use regular expression to get all the rules I need.
+
+2. For Converting from CKY to Probabilistic CKY:
+	As Jonggun asked me to use Java, I have to implement a new Java-version PCKY. In this PCKY, I made a nested Hashmap as a indexed table to store all the data, and also created another collection as Tree to store each node information.

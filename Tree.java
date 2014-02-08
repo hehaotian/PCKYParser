@@ -35,19 +35,19 @@ public class Tree {
 		return node;
 	}
 
-	public String get_left_node(String node) {
+	public String get_left_node() {
 		return leaves.get(0);
 	}
 
-	public String get_right_node(String node) {
+	public String get_right_node() {
 		return leaves.get(1);
 	}
 
-	public String get_terminal(String node) {
+	public String get_terminal() {
 		return leaves.get(0);
 	}
 
-	public double get_arc_prob(String node) {
+	public double get_arc_prob() {
 		return prob;
 	}
 
