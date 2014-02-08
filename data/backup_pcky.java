@@ -53,7 +53,6 @@ public class PckyParser {
       ArrayList<String> possible_parses = new ArrayList<String>();
 
       Map<Integer, Map<Integer, Map<String, Double>>> table = new HashMap<Integer, Map<Integer, Map<String, Double>>>();
-      List<Tree> forest = new ArrayList<Tree>();
 
       for (int j = 1; j < sentLength; j ++) {
          String curWord = words.get(j);
@@ -71,7 +70,7 @@ public class PckyParser {
             break;
          }
          Map<String, Double> prod_probs = new HashMap<String, Double>();
-         prod_probs = get_prod_probs(a, curWord, forest);
+         prod_probs = get_prod_probs(a, curWord);
          table.get(j - 1).put(j, prod_probs);
 
          for (int i = j - 2; i >= 0; i --) {
@@ -94,11 +93,10 @@ public class PckyParser {
                                  double temp_rule_prob = rules_prob.get(temp_rule);
                                  // System.out.println(real_rule);
                                  abc.put(real_rule, temp_rule_prob);
-                                 Tree t = new Tree(a_list.get(p), b, c, temp_rule_prob);
-                                 forest.add(t);
                               }
                            }                             
                         }
+
                      }
                   }
                }
@@ -132,16 +130,10 @@ public class PckyParser {
             }
          }
       }
-      /* DEBUG: TABLE AND FOREST
       System.out.println(table);
-      */
-      for (int q = 0; q < forest.size(); q ++) {
-         Tree temp_tree = forest.get(q);
-         temp_tree.print();
-      }
-       
-      System.out.println(table);
-      best_parse = backpointer(forest);
+      Map<String, Double> parses = new HashMap<String, Double>();
+      parses = backpointer(table);
+      best_parse = pick_up_best(parses);
       return best_parse;
    }
    
@@ -182,14 +174,12 @@ public class PckyParser {
       return words;
    }
 
-   private Map<String, Double> get_prod_probs(List<String> left, String right, List<Tree> forest) {
+   private Map<String, Double> get_prod_probs(List<String> left, String right) {
       Map<String, Double> prod_probs = new HashMap<String, Double>();
       for (int i = 0; i < left.size(); i ++) {
          String rule = left.get(i) + "->" + right;
          double prob = rules_prob.get(rule);
          prod_probs.put(left.get(i), rules_prob.get(rule));
-         Tree t = new Tree(left.get(i), right, rules_prob.get(rule));
-         forest.add(t);
       }
       return prod_probs;
    }
@@ -217,14 +207,14 @@ public class PckyParser {
       return c;
    }
 
-   private String backpointer(List<Tree> forest) {
-      String parse = "";
-      if (forest.size() != 0) {
-         for (int i = 0; i < forest.size(); i ++) {
-            
-         }
-      }
-      return parse;
+   private Map<String, Double> backpointer(Map<Integer, Map<Integer, Map<String, Double>>> table) {
+      Map<String, Double> parses = new HashMap<String, Double>();
+
+      return parses;
+   }
+
+   private String pick_up_best(Map<String, Double> parses) {
+      return "";
    }
 
 }

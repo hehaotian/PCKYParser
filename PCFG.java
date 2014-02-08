@@ -146,5 +146,5 @@ public class PCFG {
       String temp = rule.replaceAll(".+->", "");
       return temp.trim();
    }
-  
+   
 }
